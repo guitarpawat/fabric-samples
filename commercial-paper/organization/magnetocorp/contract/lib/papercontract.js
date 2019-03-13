@@ -128,7 +128,7 @@ class CommercialPaperContract extends Contract {
      * @param {String} redeemingOwner redeeming owner of paper
      * @param {String} redeemDateTime time paper was redeemed
     */
-    async redeem(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
+    async redeem1(ctx, issuer, paperNumber, redeemingOwner, redeemDateTime) {
 
         let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
 
