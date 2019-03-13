@@ -10,8 +10,9 @@ const State = require('./../ledger-api/state.js');
 // Enumerate commercial paper state values
 const cpState = {
     ISSUED: 1,
-    TRADING: 2,
-    REDEEMED: 3
+    RECEIVED: 2,
+    BIDDING: 3,
+    REDEEMED: 4
 };
 
 /**
@@ -23,6 +24,31 @@ class CommercialPaper extends State {
     constructor(obj) {
         super(CommercialPaper.getClass(), [obj.issuer, obj.paperNumber]);
         Object.assign(this, obj);
+    }
+
+    // Valuable
+    setFaceValue(value) {
+        this.faceValue = value
+    }
+
+    getFaceValue() {
+        return this.faceValue
+    }
+
+    setBidValue(value) {
+        this.bidValue = value
+    }
+
+    getBidValue() {
+        return this.bidValue
+    }
+
+    setBidOpener(opener) {
+        this.bidOpener = opener
+    }
+
+    getBidOpener() {
+        return this.bidOpener
     }
 
     /**
@@ -51,8 +77,12 @@ class CommercialPaper extends State {
         this.currentState = cpState.ISSUED;
     }
 
-    setTrading() {
-        this.currentState = cpState.TRADING;
+    setReceived() {
+        this.currentState = cpState.RECEIVED;
+    }
+
+    setBidding() {
+        this.currentState = cpState.BIDDING;
     }
 
     setRedeemed() {
@@ -63,8 +93,12 @@ class CommercialPaper extends State {
         return this.currentState === cpState.ISSUED;
     }
 
-    isTrading() {
-        return this.currentState === cpState.TRADING;
+    isReceived() {
+        return this.currentState === cpState.RECEIVED;
+    }
+
+    isBidding() {
+        return this.currentState === cpState.BIDDING;
     }
 
     isRedeemed() {

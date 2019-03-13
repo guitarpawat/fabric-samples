@@ -153,7 +153,7 @@ class CommercialPaperContract extends Contract {
         let paper = await ctx.paperList.getPaper(paperKey);
 
         // Validate bid price
-        if (paper.getBidValue() >= bidPrice) {
+        if (parseInt(paper.getBidValue()) >= parseInt(bidPrice)) {
             throw new Error('Paper ' + issuer + paperNumber + ' has current bidding at ' + paper.getBidValue());
         }
 
