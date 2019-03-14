@@ -64,6 +64,7 @@ class CommercialPaperContract extends Contract {
     */
     async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
 
+        // If paper with the same paper number exist then throw error
         let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
         let paperTest = ""
         try {
