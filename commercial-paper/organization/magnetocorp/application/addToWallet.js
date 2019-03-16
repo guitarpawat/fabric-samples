@@ -14,8 +14,9 @@ const fixtures = path.resolve(__dirname, '../../../../basic-network');
 // A wallet stores a collection of identities
 const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
 
-async function main() {
-
+async function addToWallet() {
+    
+    console.log('call: add To wallet successful')
     // Main try/catch block
     try {
 
@@ -36,10 +37,13 @@ async function main() {
     }
 }
 
-main().then(() => {
-    console.log('done');
-}).catch((e) => {
-    console.log(e);
-    console.log(e.stack);
-    process.exit(-1);
-});
+// main().then(() => {
+//     console.log('done');
+// }).catch((e) => {
+//     console.log(e);
+//     console.log(e.stack);
+//     process.exit(-1);
+// });
+
+
+module.exports.addToWallet = addToWallet

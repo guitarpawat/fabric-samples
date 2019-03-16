@@ -25,7 +25,9 @@ const CommercialPaper = require('../contract/lib/paper.js');
 const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
 
 // Main program function
-async function main() {
+async function issue() {
+
+  console.log('call: issue successful')
 
   // A gateway defines the peers used to access Fabric networks
   const gateway = new Gateway();
@@ -88,15 +90,18 @@ async function main() {
 
   }
 }
-main().then(() => {
 
-  console.log('Issue program complete.');
+// main().then(() => {
 
-}).catch((e) => {
+//   console.log('Issue program complete.');
 
-  console.log('Issue program exception.');
-  console.log(e);
-  console.log(e.stack);
-  process.exit(-1);
+// }).catch((e) => {
 
-});
+//   console.log('Issue program exception.');
+//   console.log(e);
+//   console.log(e.stack);
+//   process.exit(-1);
+
+// });
+
+module.exports.issue = issue
