@@ -64,6 +64,21 @@ class CommercialPaperContract extends Contract {
     */
     async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
 
+        // If paper with the same paper number exist then throw error
+        let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
+        let paperTest = ""
+        try {
+            paperTest = await ctx.paperList.getPaper(paperKey);
+        } catch(error) {
+            console.log(`Error processing transaction. ${error}`);
+            console.log(error.stack);
+        } finally {
+            // if paper exist throw error
+            if(paperTest) {
+                throw new Error('Paper ' + issuer + paperNumber + ' is already exist. Current state = ' +paperTest.getCurrentState());
+            }
+        }
+
         // create an instance of the paper
         let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
 
