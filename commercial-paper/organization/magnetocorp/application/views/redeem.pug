@@ -1,0 +1,12 @@
+form(action='/redeem' method='post')
+    
+    .form-group
+        input.input(type='text' name='issuer')
+    .form-group
+        input.input(type='text' name='papernum' placeholder='papernum')
+    .form-group
+        input.input(type='text' name='redeemowner' placeholder='redeemowner')
+    .form-group
+        input.input(type='text' name='date' placeholder='date')
+    
+    button(type='submit') redeem

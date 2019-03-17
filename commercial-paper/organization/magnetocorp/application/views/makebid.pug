@@ -1,0 +1,12 @@
+form(action='/makebid' method='post')
+    
+    .form-group
+        input.input(type='text' name='issuer')
+    .form-group
+        input.input(type='text' name='papernum' placeholder='papernum')
+    .form-group
+        input.input(type='text' name='bidder' placeholder='bidder')
+    .form-group
+        input.input(type='text' name='price' placeholder='price')
+    
+    button(type='submit') makebid
