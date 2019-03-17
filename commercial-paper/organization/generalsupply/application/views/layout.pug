@@ -1,0 +1,41 @@
+html
+
+    head
+
+        title #{company}
+        
+    body
+    
+        if pg===1
+            strong [Issue]
+        else
+            a(href="/issue") [Issue]
+
+        if pg===2
+            strong [Submit]
+        else
+            a(href="/submit") [Submit]
+
+        if pg===3
+            strong [Open bid]
+        else
+            a(href="/openbid") [Open bid]
+
+        if pg===4
+            strong [Make bid]
+        else
+            a(href="/makebid") [Make bid]
+
+        if pg===5
+            strong [Close bid]
+        else
+            a(href="/closebid") [Close bid]
+
+        if pg===6
+            strong [Redeem]
+        else
+            a(href="/redeem") [Redeem]
+
+        hr
+        
+        block content
