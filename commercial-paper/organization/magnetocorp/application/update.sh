@@ -4,8 +4,6 @@
 # Run this by
 # ./update.sh ${new_version}
 
-@echo off
-
 new_version=$1
 
 echo update new_version ${new_version}
