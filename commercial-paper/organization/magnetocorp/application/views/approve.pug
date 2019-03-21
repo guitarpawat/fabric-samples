@@ -1,20 +1,17 @@
 extends layout.pug
 
 block content
-    form(action='/submit' method='post')
+    form(action='/approve' method='post')
         
         .form-group
             p Issuer
-            input.input(type='text' name='issuer' value=id readonly)
+            input.input(type='text' name='issuer')
         .form-group
             p Paper Number
             input.input(type='text' name='papernum')
         .form-group
-            p Current Owner
+            p Buyer
             input.input(type='text' name='currentowner' value=id readonly)
-        .form-group
-            p New Owner
-            input.input(type='text' name='newowner')
         
         p
-        button(type='submit') Sumbit
+        button(type='submit') Approve
