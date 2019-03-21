@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 
 
 const app = express()
-const initport = 3001
+const initport = 3004
 
 const issue = require('./issue_module')
 
-const company = "Magneto Corp"
-const id = "MAG"
+const company = "Digibank"
+const id = "DIG"
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
