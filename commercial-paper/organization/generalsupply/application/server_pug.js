@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 
 
 const app = express()
-const initport = 3003
+const initport = 3001
 
 const issue = require('./issue_module')
 
-const company = "General Supply"
-const id = "GEN"
+const company = "Magneto Corp"
+const id = "MAG"
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -47,22 +47,22 @@ app.post('/issue',async function(req, res){
 
     values = req.body
     console.log(values)
-    response = await issue.issue('issue',values.issuer,values.papernum,values.issuedate,values.redeemdate,values.faceval)
+    response = await issue.issue('issue',values.issuer,values.papernum,values.buyer,values.issuedate,values.redeemdate,values.faceval)
     res.render('result', {company: company, id: id, pg:0, result: response.toString()})
 
 })
 
-app.get('/submit',async function(req, res){
+app.get('/approve',async function(req, res){
 
-    res.render('submit', {company: company, id: id, pg:2})
+    res.render('approve', {company: company, id: id, pg:2})
 
 })
 
-app.post('/submit',async function(req, res){
+app.post('/approve',async function(req, res){
 
     values = req.body
     console.log(values)
-    response = await issue.issue('submit',values.issuer,values.papernum,values.currentowner,values.newowner)
+    response = await issue.issue('approve',values.issuer,values.papernum,values.currentowner)
     res.render('result', {company: company, id: id, pg:0, result: response.toString()})
 
 })
@@ -79,7 +79,7 @@ app.post('/openbid',async function(req, res){
 
     values = req.body
     console.log(values)
-    response = await issue.issue('openBid',values.issuer,values.papernum,values.currentowner)
+    response = await issue.issue('openBid',values.issuer,values.papernum,values.opener)
     res.render('result', {company: company, id: id, pg:0, result: response.toString()})
 
 })
@@ -109,7 +109,7 @@ app.post('/closebid',async function(req, res){
 
     values = req.body
     console.log(values)
-    response = await issue.issue('closeBid',values.issuer,values.papernum,values.currentowner)
+    response = await issue.issue('closeBid',values.issuer,values.papernum,values.opener)
     res.render('result', {company: company, id: id, pg:0, result: response.toString()})
 
 })
@@ -124,7 +124,7 @@ app.post('/redeem',async function(req, res){
 
     values = req.body
     console.log(values)
-    response = await issue.issue('redeem',values.issuer,values.papernum,values.redeemowner,values.date)
+    response = await issue.issue('redeem',values.issuer,values.papernum,values.funder,values.date)
     res.render('result', {company: company, id: id, pg:0, result: response.toString()})
 
 })

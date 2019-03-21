@@ -58,11 +58,12 @@ class CommercialPaperContract extends Contract {
      * @param {Context} ctx the transaction context
      * @param {String} issuer commercial paper issuer
      * @param {Integer} paperNumber paper number for this issuer
+     * @param {String} buyer paper buyer to redeem redeem
      * @param {String} issueDateTime paper issue date
      * @param {String} maturityDateTime paper maturity date
      * @param {Integer} faceValue face value of paper
     */
-    async issue(ctx, issuer, paperNumber, issueDateTime, maturityDateTime, faceValue) {
+    async issue(ctx, issuer, paperNumber, buyer, issueDateTime, maturityDateTime, faceValue) {
 
         // create an instance of the paper
         let paper = CommercialPaper.createInstance(issuer, paperNumber, issueDateTime, maturityDateTime, faceValue);
@@ -70,8 +71,11 @@ class CommercialPaperContract extends Contract {
         // Smart contract, rather than paper, moves paper into ISSUED state
         paper.setIssued();
 
-        // Newly issued paper is owned by the issuer
-        paper.setOwner(issuer);
+        // Paper need to know the buyer
+        paper.setBuyer(buyer);
+
+        // Newly issued paper is owned by the buyer
+        paper.setOwner(buyer);
 
         // Valuable
         paper.setFaceValue(faceValue)
@@ -85,18 +89,14 @@ class CommercialPaperContract extends Contract {
     }
 
     /**
-     * Buy commercial paper
-     *
+     * Buyer approve the paper
+     * 
      * @param {Context} ctx the transaction context
      * @param {String} issuer commercial paper issuer
      * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} currentOwner current owner of paper
-     * @param {String} newOwner new owner of paper
-     * @param {Integer} price price paid for this paper
-     * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
-    */
-    async submit(ctx, issuer, paperNumber, currentOwner, newOwner) {
-
+     * @param {*} currentOwner Buyer identify themself
+     */
+    async approve(ctx, issuer, paperNumber, currentOwner) {
         // Retrieve the current paper using key fields provided
         let paperKey = CommercialPaper.makeKey([issuer, paperNumber]);
         let paper = await ctx.paperList.getPaper(paperKey);
@@ -106,14 +106,14 @@ class CommercialPaperContract extends Contract {
             throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
         }
 
-        // First check and moves state from ISSUED to RECEIVED
+        // First check and moves state from ISSUED to APPROVED
         if (paper.isIssued()) {
-            paper.setReceived();
+            paper.setApproved();
         } else {
             throw new Error('Paper ' + issuer + paperNumber + ' is not issued. Current state = ' +paper.getCurrentState());
         }
 
-        paper.setOwner(newOwner)
+        paper.setOwner(issuer)
 
         // Update the paper
         await ctx.paperList.updatePaper(paper);
@@ -131,11 +131,11 @@ class CommercialPaperContract extends Contract {
             throw new Error('Paper ' + issuer + paperNumber + ' is not owned by ' + currentOwner);
         }
 
-        // First check and moves state from RECEIVED to BIDDING
-        if (paper.isReceived()) {
+        // First check and moves state from APPROVED to BIDDING
+        if (paper.isApproved()) {
             paper.setBidding();
         } else {
-            throw new Error('Paper ' + issuer + paperNumber + ' is not receive. Current state = ' +paper.getCurrentState());
+            throw new Error('Paper ' + issuer + paperNumber + ' is not approved. Current state = ' +paper.getCurrentState());
         }
 
         paper.setBidOpener(currentOwner)
@@ -186,7 +186,7 @@ class CommercialPaperContract extends Contract {
             throw new Error('Paper ' + issuer + paperNumber + ' is not bidding. Current state = ' +paper.getCurrentState());
         }
 
-        paper.setReceived()
+        paper.setApproved()
 
         // Update the paper
         await ctx.paperList.updatePaper(paper);
@@ -208,14 +208,14 @@ class CommercialPaperContract extends Contract {
 
         let paper = await ctx.paperList.getPaper(paperKey);
 
-        // Check paper is not RECEIVED
-        if (!paper.isReceived()) {
-            throw new Error('Paper ' + issuer + paperNumber + ' is not received');
+        // Check paper is not APPROVED
+        if (!paper.isApproved()) {
+            throw new Error('Paper ' + issuer + paperNumber + ' is not approved');
         }
 
         // Verify that the redeemer owns the commercial paper before redeeming it
         if (paper.getOwner() === redeemingOwner) {
-            paper.setOwner(paper.getIssuer());
+            paper.setOwner(paper.getBuyer());
             paper.setRedeemed();
         } else {
             throw new Error('Redeeming owner does not own paper' + issuer + paperNumber);
