@@ -56,7 +56,7 @@ class CommercialPaper extends State {
         this.buyer = value
     }
 
-    setBuyer(value) {
+    getBuyer(value) {
         return this.buyer
     }
 

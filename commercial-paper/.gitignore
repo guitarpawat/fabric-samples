@@ -4,5 +4,11 @@ organization/magnetocorp/identity/user/
 organization/digibank/application/node_modules/
 organization/digibank/contract/node_modules/
 organization/digibank/identity/user/
+organization/generalsupply/application/node_modules/
+organization/generalsupply/contract/node_modules/
+organization/generalsupply/identity/user/
+organization/hodlfinance/application/node_modules/
+organization/hodlfinance/contract/node_modules/
+organization/hodlfinance/identity/user/
 package-lock.json
 .vscode

@@ -1,7 +1,7 @@
 extends layout.pug
 
 block content
-    form(action='/redeem' method='post')
+    form(action='/approve' method='post')
         
         .form-group
             p Issuer
@@ -10,11 +10,8 @@ block content
             p Paper Number
             input.input(type='text' name='papernum')
         .form-group
-            p Funder
-            input.input(type='text' name='funder' value=id readonly)
-        .form-group
-            p Date
-            input.input(type='text' name='date')
+            p Buyer
+            input.input(type='text' name='currentowner' value=id readonly)
         
         p
-        button(type='submit') Redeem
+        button(type='submit') Approve
